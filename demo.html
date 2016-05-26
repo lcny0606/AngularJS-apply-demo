@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>test1</title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular-animate.min.js"></script>
+	</head>
+	<body ng-app='myapp'>
+	
+		<div  ng-controller="myctrl">
+			name:<input type="text" ng-model='firstname' /> <br />
+			na:<input type="text" ng-model='lastname' /> <br />
+			
+			xingming:{{firstname+" "+lastname}}
+			
+			<div ng-init="names=[{num:'22',var:'333',k:'kai'},{num:'44',var:'55',k:'ji'},{num:'66',var:'77',k:'hua'}]">
+				<p><input type="text" ng-model='fli' /></p>
+				<ul> 
+					<li ng-repeat="x in names | filter:fli">{{x.num+','+x.var+','+x.k}}</li>
+				</ul>
+			</div>
+			<p>{{lastname|uppercase}}</p>
+			<button ng-click="count=count+1">dianwo</button>
+			<p>{{count}}</p>
+			<p>{{3*1.5|currency}}</p>
+			
+			<h1>yincang <input type="checkbox" ng-model='animate' /></h1>
+			<div class="animate" ng-hide='animate'></div>
+			
+		</div>
+		<run-bo></run-bo>
+		<div run-bo>		</div>
+		<div class="run-bo"></div>
+		<form name='myfrom'>
+			<input type="email" name="myadd" ng-model="text"/>
+			<span ng-show='myfrom.myadd.$error.email'>不是一个合法的邮箱地址</span>
+		</form>
+		<div ng-controller="url">
+			{{myurl}}
+		</div>
+		
+		<div ng-controller="timeout">
+			{{header}}
+		</div>
+		
+		<div ng-controller="nowtime">
+			{{thetime}}
+		</div>
+		
+		<div ng-controller="ctrl2">
+			<select ng-model='selcet' >
+				<option ng-repeat="x in names">{{x}}</option>
+			</select>
+			{{selcet}}
+			
+			<select ng-model="sel2" ng-options="x for (x,y) in sites">
+				
+			</select>
+			
+		</div>
+		
+		<div ng-controller="form">
+			<table class="">
+				<tr ng-repeat="x in names">
+					<td>{{$index+1}}</td>
+					<td>{{x.Name}}</td>
+					<td>{{x.Country | uppercase}}</td>
+				</tr>
+				
+			</table>
+		</div>
+	
+
+		
+		<script type="text/javascript">
+			var app=angular.module('myapp',[]);
+			app.controller('myctrl',function($scope){
+				$scope.firstname='john';
+				$scope.lastname='bode';
+				
+			})
+			app.directive('runBo',function(){
+				return{
+					restrict:"EACM",
+					template:"<p>zidingyizhil</p>"
+				}
+			})
+			
+			app.controller('url',function($scope,$location){
+				$scope.myurl=$location.absUrl();
+			})
+			
+			app.controller("timeout",function($scope,$timeout){
+				$scope.header="hello";
+				$timeout(function(){
+					$scope.header="IS me";
+				},2000)
+				
+			})
+			
+			app.controller("nowtime",function($scope,$interval){
+				$scope.thetime=new Date().toLocaleTimeString()
+				$interval(function(){
+					$scope.thetime=new Date().toLocaleTimeString()
+				},1000)
+			})
+			
+			app.controller("ctrl2",function($scope){
+				$scope.names=['google','baidu','bing']
+				$scope.sites={
+					site01:'goooo',
+					site02:'bddd',
+					site03:'binnnnn'
+				}
+			})
+			
+			app.controller("form",function($scope,$http){
+				$http.get('Customers_JSON.php').success(function(response){
+					$scope.names=response.records
+				})
+				
+				
+			})
+			
+
+		</script>
+		<style type="text/css">
+			table td{border:  1px solid #CCCCCC;}
+			table tr:nth-child(odd){background: #f1f1f1;}
+			.animate{
+				width: 100px;height: 100px;border: 1px solid #CCCCCC;background: lightblue;transition:width 2s;transition-timing-function:  cubic-bezier(0,0,1,1);
+				}
+			.animate:hover{width: 500px;}
+		</style>
+		
+	</body>
+</html>
