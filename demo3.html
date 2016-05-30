@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>demo3</title>
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body ng-app="notes" ng-controller="note">
+		<h2>my notes</h2>
+		<div class="textarea">
+			<textarea name="" rows="20" cols="30" ng-model="texta"></textarea>
+			<div class="btn">
+				<button class="save" ng-click="save()">保存</button>
+				<button class="clear" ng-click="clear()">清除</button>
+			</div>
+			<p>剩余字数：<span ng-bind="last()"></span></p>
+		</div>
+		<script type="text/javascript">
+			var app=angular.module('notes',[]);
+			app.controller('note',function($scope){
+				$scope.texta="";
+				$scope.last=function(){return 200-$scope.texta.length};
+				$scope.save=function(){alert("您的笔记已保存")};
+				$scope.clear=function(){$scope.texta=""};
+			})
+			
+			
+		</script>
+	</body>
+</html>
